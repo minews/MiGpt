@@ -1,49 +1,29 @@
 # xiaogpt
 
-[![PyPI](https://img.shields.io/pypi/v/xiaogpt?style=flat-square)](https://pypi.org/project/xiaogpt)
-[![Docker Image Version (latest by date)](https://img.shields.io/docker/v/yihong0618/xiaogpt?color=%23086DCD&label=docker%20image)](https://hub.docker.com/r/yihong0618/xiaogpt)
-
-<https://user-images.githubusercontent.com/15976103/226803357-72f87a41-a15b-409e-94f5-e2d262eecd53.mp4>
-
-Play ChatGPT and other LLM with Xiaomi AI Speaker
-
-![image](https://user-images.githubusercontent.com/15976103/220028375-c193a859-48a1-4270-95b6-ef540e54a621.png)
-![image](https://user-images.githubusercontent.com/15976103/226802344-9c71f543-b73c-4a47-8703-4c200c434dec.png)
+> 本项目 fork 自 [yihong0618/xiaogpt](https://github.com/yihong0618/xiaogpt)，在原项目基础上进行了修改和扩展。
 
 ## 支持的 AI 类型
 
 通过 [LangChain](https://python.langchain.com/) 统一接入，支持以下 provider：
 
-| Provider | `model_provider` | 默认模型 | API Key 环境变量 |
-|---|---|---|---|
-| [OpenAI](https://platform.openai.com/) | `openai` | `gpt-4o-mini` | `OPENAI_API_KEY` |
-| [Google Gemini](https://makersuite.google.com/app/apikey) | `google-genai` | `gemini-2.5-flash-lite` | `GEMINI_KEY` |
-| [Groq (Llama3)](https://console.groq.com/docs/quickstart) | `groq` | `llama3-70b-8192` | `GROQ_API_KEY` |
-| [Moonshot](https://platform.moonshot.cn/) | `openai` | `moonshot-v1-8k` | `MOONSHOT_API_KEY` |
-| [ChatGLM](http://open.bigmodel.cn/) | `openai` | `glm-4` | `CHATGLM_KEY` |
-| [通义千问](https://help.aliyun.com/zh/dashscope/) | `openai` | `qwen-turbo` | `DASHSCOPE_API_KEY` |
-| [01万物](https://platform.lingyiwanwu.com/apikeys) | `openai` | `yi-34b-chat-0205` | `YI_API_KEY` |
-| [豆包](https://console.volcengine.com/) | `openai` | `skylark-chat` | `volc_api_key` |
-| [PPIO (DeepSeek)](https://api.ppinfra.com/) | `openai` | `deepseek/deepseek-v3.2` | `PPIO_API_KEY` |
+| Provider                                                  | `model_provider` | 默认模型                 | API Key 环境变量    |
+| --------------------------------------------------------- | ---------------- | ------------------------ | ------------------- |
+| [OpenAI](https://platform.openai.com/)                    | `openai`         | `gpt-4o-mini`            | `OPENAI_API_KEY`    |
+| [Google Gemini](https://makersuite.google.com/app/apikey) | `google-genai`   | `gemini-2.5-flash-lite`  | `GEMINI_KEY`        |
+| [Groq (Llama3)](https://console.groq.com/docs/quickstart) | `groq`           | `llama3-70b-8192`        | `GROQ_API_KEY`      |
+| [Moonshot](https://platform.moonshot.cn/)                 | `openai`         | `moonshot-v1-8k`         | `MOONSHOT_API_KEY`  |
+| [ChatGLM](http://open.bigmodel.cn/)                       | `openai`         | `glm-4`                  | `CHATGLM_KEY`       |
+| [通义千问](https://help.aliyun.com/zh/dashscope/)         | `openai`         | `qwen-turbo`             | `DASHSCOPE_API_KEY` |
+| [01万物](https://platform.lingyiwanwu.com/apikeys)        | `openai`         | `yi-34b-chat-0205`       | `YI_API_KEY`        |
+| [豆包](https://console.volcengine.com/)                   | `openai`         | `skylark-chat`           | `volc_api_key`      |
+| [PPIO (DeepSeek)](https://api.ppinfra.com/)               | `openai`         | `deepseek/deepseek-v3.2` | `PPIO_API_KEY`      |
 
 > 任何 OpenAI 兼容的 API 服务都可以通过 `model_provider: openai` + `api_base` 接入。
 > 旧版 `bot=chatgptapi` 等配置仍然兼容，会自动映射到对应的 provider。
 
 ## 获取小米音响 DID
 
-| 系统和 Shell   | Linux *sh                                      | Windows CMD 用户                        | Windows PowerShell 用户                         |
-| ------------- | ---------------------------------------------- | -------------------------------------- | ---------------------------------------------- |
-| 1、安装包     | `pip install miservice_fork`                   | `pip install miservice_fork`           | `pip install miservice_fork`                   |
-| 2、设置变量   | `export MI_USER=xxx` <br> `export MI_PASS=xxx` | `set MI_USER=xxx`<br>`set MI_PASS=xxx` | `$env:MI_USER="xxx"` <br> `$env:MI_PASS="xxx"` |
-| 3、取得 MI_DID | `micli list`                                   | `micli list`                           | `micli list`                                   |
-| 4、设置 MI_DID | `export MI_DID=xxx`                            | `set MI_DID=xxx`                       | `$env:MI_DID="xxx"`                            |
-
-- 注意不同 shell 对环境变量的处理是不同的，尤其是 powershell 赋值时，可能需要双引号来包括值。
-- 如果获取 did 报错时，请更换一下无线网络，有很大概率解决问题。
-
-## 一点原理
-
-[不用 root 使用小爱同学和 ChatGPT 交互折腾记](https://github.com/yihong0618/gitblog/issues/258)
+本项目使用 Cookie 认证，无需安装额外依赖或配置账号密码。
 
 ## 准备
 
@@ -52,101 +32,120 @@ Play ChatGPT and other LLM with Xiaomi AI Speaker
 3. 能正常联网的环境或 proxy
 4. Python 3.9+
 
+## 快速开始
+
+### 1. 准备配置文件
+
+复制示例配置文件并重命名：
+
+```shell
+cp xiao_config_example.yaml xiao_config.yaml
+```
+
+### 2. 获取小米账号 Cookie
+
+1. 在浏览器中打开 <https://account.xiaomi.com/> 并登录
+2. 按 `F12` 打开开发者工具，切换到 **Network（网络）** 面板
+3. 刷新页面，找到任意一条请求，在请求头中复制 `Cookie` 字段的完整内容（如下图所示）
+
+![获取 Cookie 示例](image.png)
+
+4. 将 cookie 填入 `xiao_config.yaml` 的 `cookie` 字段：
+
+```yaml
+cookie: "deviceId=xxx; userId=xxx; passToken=xxx; ..."
+```
+
+### 3. 安装依赖
+
+安装 [uv](https://docs.astral.sh/uv/getting-started/installation/)，然后执行：
+
+```shell
+uv sync
+```
+
+### 4. 获取设备 DID
+
+运行以下命令查询你的小爱音箱设备列表：
+
+```shell
+uv run test_device_list.py
+```
+
+输出示例：
+
+```json
+[
+  {
+    "name": "小爱触屏音箱",
+    "mi_did": "1111111",
+    "hardware": "LX04"
+  }
+]
+```
+
+将 `mi_did`,`hardware` 的值填入 `xiao_config.yaml`：
+
+```yaml
+mi_did: "1111111"
+hardware: "LX04"
+```
+
+### 5. 配置 AI
+
+在 `xiao_config.yaml` 中填写 AI 相关字段，例如使用 OpenAI 兼容接口：
+
+```yaml
+model_provider: openai
+model_name: gpt-4o
+openai_key: "sk-xxxx"
+api_base: "https://api.openai.com/v1"
+```
+
+### 6. 启动
+
+```shell
+uv run start.py
+```
+
+启动后即可通过小爱音箱与 AI 对话。说出配置的触发词（默认"请"）开头的问题即可激活 AI 回复。
+
+---
+
 ## 使用
 
-- `pip install -U --force-reinstall xiaogpt`
-- 参考我 fork 的 [MiService](https://github.com/yihong0618/MiService) 项目 README 并在本地 terminal 跑 `micli list` 拿到你音响的 DID 成功 **别忘了设置 export MI_DID=xxx** 这个 MI_DID 用
-- run `xiaogpt --hardware ${your_hardware} --model_provider openai --model_name gpt-4o-mini` hardware 你看小爱屁股上有型号，输入进来，如果在屁股上找不到或者型号不对，可以用 `micli mina` 找到型号
-- 跑起来之后就可以问小爱同学问题了，”帮我”开头的问题，会发送一份给 LLM 然后小爱同学用 tts 回答
-- 如果上面不可用，可以尝试用手机抓包，<https://userprofile.mina.mi.com/device_profile/v2/conversation> 找到 cookie 利用 `--cookie '${cookie}'` cookie 别忘了用单引号包裹
-- 默认用目前 ubus, 如果你的设备不支持 ubus 可以使用 `--use_command` 来使用 command 来 tts
-- 使用 `--mute_xiaoai` 选项，可以快速停掉小爱的回答
-- 使用 `--account ${account} --password ${password}`
-- 如果有能力可以自行替换唤醒词，也可以去掉唤醒词
-- 如果你遇到了墙需要用 Cloudflare Workers 替换 api_base 请使用 `--api_base ${url}` 来替换。 **请注意，此处你输入的 api 应该是'`https://xxxx/v1`'的字样，域名需要用引号包裹**
-- 可以跟小爱说 `开始持续对话` 自动进入持续对话状态，`结束持续对话` 结束持续对话状态。
-- 可以使用 `--tts edge` 来获取更好的 tts 能力
-- 可以使用 `--tts fish --fish_api_key <your-fish-key> --fish_voice_key <fish-voice>` 来获取 [fish-audio](https://fish.audio/) 能力 (如何获取 fish voice 见下)
-- 可以使用 `--tts openai` 来获取 openai tts 能力
-- 可以使用 `--tts azure --azure_tts_speech_key <your-speech-key>` 来获取 Azure TTS 能力
-
-### 新配置方式（推荐）
-
-通过 `--model_provider` 和 `--model_name` 直接指定模型：
+本项目仅支持通过配置文件启动，不支持命令行参数。请参考[快速开始](#快速开始)完成配置后运行：
 
 ```shell
-# OpenAI
-export OPENAI_API_KEY=${your_api_key}
-xiaogpt --hardware LX06 --model_provider openai --model_name gpt-4o-mini --mute_xiaoai --stream
-
-# Google Gemini
-export GEMINI_KEY=${your_gemini_key}
-xiaogpt --hardware LX06 --model_provider google-genai --model_name gemini-2.5-flash-lite --mute_xiaoai --stream
-
-# Groq (Llama3)
-export GROQ_API_KEY=${your_groq_key}
-xiaogpt --hardware LX06 --model_provider groq --model_name llama3-70b-8192 --mute_xiaoai --stream
-
-# Moonshot (OpenAI 兼容)
-export MOONSHOT_API_KEY=${your_moonshot_key}
-xiaogpt --hardware LX06 --model_provider openai --model_name moonshot-v1-8k --api_base https://api.moonshot.cn/v1 --mute_xiaoai --stream
-
-# DeepSeek via PPIO
-export PPIO_API_KEY=${your_ppio_key}
-xiaogpt --hardware LX06 --model_provider openai --model_name deepseek/deepseek-v3.2 --api_base https://api.ppinfra.com/openai --mute_xiaoai --stream
+uv run start.py
 ```
 
-### 兼容旧配置
+- 说出配置的触发词（默认 `请`）开头的问题即可激活 AI 回复
+- 可以跟小爱说 `开始持续对话` 自动进入持续对话状态，`结束持续对话` 结束持续对话状态
+- 默认用 ubus 与设备交互，如果你的设备不支持 ubus，可在配置文件中设置 `use_command: true`
+- 设置 `mute_xiaoai: true` 可快速停掉小爱自己的回答
 
-旧的 `--use_chatgpt_api`、`--use_gemini` 等参数仍然有效，会自动映射到对应的 provider：
+## xiao_config.yaml
+
+本项目通过 `xiao_config.yaml` 配置文件启动，配置文件必须是合法的 YAML 格式。可参考 `xiao_config_example.yaml` 创建：
 
 ```shell
-export OPENAI_API_KEY=${your_api_key}
-xiaogpt --hardware LX06 --use_chatgpt_api
-# or
-xiaogpt --hardware LX06 --cookie ${cookie} --use_chatgpt_api
-# 如果你想直接输入账号密码
-xiaogpt --hardware LX06 --account ${your_xiaomi_account} --password ${your_password} --use_chatgpt_api
-# 如果你想 mute 小米的回答
-xiaogpt --hardware LX06  --mute_xiaoai --use_chatgpt_api
-# 使用流式响应，获得更快的响应
-xiaogpt --hardware LX06  --mute_xiaoai --stream
-# 如果你想使用 google 的 gemini
-xiaogpt --hardware LX06  --mute_xiaoai --use_gemini --gemini_key ${gemini_key}
-# 如果你想使用阿里的通义千问
-xiaogpt --hardware LX06  --mute_xiaoai --use_qwen --qwen_key ${qwen_key}
-# 如果你想使用 kimi
-xiaogpt --hardware LX06  --mute_xiaoai --use_moonshot_api --moonshot_api_key ${moonshot_api_key}
-# 如果你想使用 llama3
-xiaogpt --hardware LX06  --mute_xiaoai --use_llama --llama_api_key ${llama_api_key}
+cp xiao_config_example.yaml xiao_config.yaml
 ```
 
-## config.yaml
-
-如果想通过单一配置文件启动也是可以的，可以通过 `--config` 参数指定配置文件，config 文件必须是合法的 Yaml 或 JSON 格式
-参数优先级
-
-- cli args > default > config
-
-```shell
-python3 xiaogpt.py --config xiao_config.yaml
-# or
-xiaogpt --config xiao_config.yaml
-```
-
-配置文件示例（新方式）：
+配置文件示例：
 
 ```yaml
 hardware: LX06
-account: ""
-password: ""
+cookie: "deviceId=xxx; passToken=xxx; ..."
+mi_did: "1111111"
 stream: true
 mute_xiaoai: true
 
-# 直接指定 provider 和 model
 model_provider: openai
 model_name: gpt-4o-mini
-# openai_key: ""  # 或设置环境变量 OPENAI_API_KEY
+openai_key: "sk-xxxx"
+api_base: "https://api.openai.com/v1"
 ```
 
 ## MCP 工具（可选）
@@ -173,41 +172,40 @@ mcp_servers:
 
 ### 模型配置（新方式，推荐）
 
-| 参数 | 说明 | 默认值 |
-|---|---|---|
-| model_provider | LangChain 模型 provider | 由 `bot` 自动映射 |
-| model_name | 模型名称 | 由 `bot` 自动映射 |
-| api_base | 自定义 API 端点 URL |  |
-| openai_key | API Key（所有 provider 通用） | 环境变量 `OPENAI_API_KEY` |
+| 参数           | 说明                          | 默认值                    |
+| -------------- | ----------------------------- | ------------------------- |
+| model_provider | LangChain 模型 provider       | 由 `bot` 自动映射         |
+| model_name     | 模型名称                      | 由 `bot` 自动映射         |
+| api_base       | 自定义 API 端点 URL           |                           |
+| openai_key     | API Key（所有 provider 通用） | 环境变量 `OPENAI_API_KEY` |
 
 ### MCP 工具配置
 
-| 参数 | 说明 | 默认值 |
-|---|---|---|
-| mcp_servers | MCP Server 列表，见 [MCP 工具](#mcp-工具可选) | `[]` |
+| 参数        | 说明                                          | 默认值 |
+| ----------- | --------------------------------------------- | ------ |
+| mcp_servers | MCP Server 列表，见 [MCP 工具](#mcp-工具可选) | `[]`   |
 
 ### 设备和通用配置
 
-| 参数 | 说明 | 默认值 | 可选值 |
-|---|---|---|---|
-| hardware | 设备型号 |  |  |
-| account | 小爱账户 |  |  |
-| password | 小爱账户密码 |  |  |
-| cookie | 小爱账户 cookie（如果用密码登录可以不填） |  |  |
-| mi_did | 设备 did |  |  |
-| use_command | 使用 MI command 与小爱交互 | `false` |  |
-| mute_xiaoai | 快速停掉小爱自己的回答 | `true` |  |
-| verbose | 是否打印详细日志 | `false` |  |
-| tts | 使用的 TTS 类型 | `mi` | `edge`、`openai`、`azure`、`volc`、`baidu`、`google`、`minimax`、`fish` |
-| tts_options | TTS 参数字典，参考 [tetos](https://github.com/frostming/tetos) | `{}` |  |
-| prompt | 自定义 prompt | `请用300字以内回答` |  |
-| keyword | 自定义请求词列表 | `["帮我", "请"]` |  |
-| change_prompt_keyword | 更改提示词触发列表 | `["更改提示词"]` |  |
-| start_conversation | 开始持续对话关键词 | `开始持续对话` |  |
-| end_conversation | 结束持续对话关键词 | `结束持续对话` |  |
-| stream | 使用流式响应 | `false` |  |
-| proxy | HTTP 代理 URL | `""` |  |
-
+| 参数                  | 说明                                                           | 默认值              | 可选值                                                                  |
+| --------------------- | -------------------------------------------------------------- | ------------------- | ----------------------------------------------------------------------- |
+| hardware              | 设备型号                                                       |                     |                                                                         |
+| account               | 小爱账户                                                       |                     |                                                                         |
+| password              | 小爱账户密码                                                   |                     |                                                                         |
+| cookie                | 小爱账户 cookie（如果用密码登录可以不填）                      |                     |                                                                         |
+| mi_did                | 设备 did                                                       |                     |                                                                         |
+| use_command           | 使用 MI command 与小爱交互                                     | `false`             |                                                                         |
+| mute_xiaoai           | 快速停掉小爱自己的回答                                         | `true`              |                                                                         |
+| verbose               | 是否打印详细日志                                               | `false`             |                                                                         |
+| tts                   | 使用的 TTS 类型                                                | `mi`                | `edge`、`openai`、`azure`、`volc`、`baidu`、`google`、`minimax`、`fish` |
+| tts_options           | TTS 参数字典，参考 [tetos](https://github.com/frostming/tetos) | `{}`                |                                                                         |
+| prompt                | 自定义 prompt                                                  | `请用300字以内回答` |                                                                         |
+| keyword               | 自定义请求词列表                                               | `["帮我", "请"]`    |                                                                         |
+| change_prompt_keyword | 更改提示词触发列表                                             | `["更改提示词"]`    |                                                                         |
+| start_conversation    | 开始持续对话关键词                                             | `开始持续对话`      |                                                                         |
+| end_conversation      | 结束持续对话关键词                                             | `结束持续对话`      |                                                                         |
+| stream                | 使用流式响应                                                   | `false`             |                                                                         |
+| proxy                 | HTTP 代理 URL                                                  | `""`                |                                                                         |
 
 ## 注意
 
@@ -228,107 +226,6 @@ mcp_servers:
    若是 linux 则请放到当前用户的 home 文件夹，此时你可以重新执行先前的命令，不出意外即可正常登录（但 cookie 可能会过一段时间失效，需要重新获取）<br>
    详情请见 [https://github.com/yihong0618/xiaogpt/issues/332](https://github.com/yihong0618/xiaogpt/issues/332)
 
-## 视频教程
-
-<https://www.youtube.com/watch?v=K4YA8YwzOOA>
-
-## Docker
-
-### 常规用法
-
-X86/ARM Docker Image: `yihong0618/xiaogpt`
-
-```shell
-docker run -e OPENAI_API_KEY=<your-openapi-key> yihong0618/xiaogpt <命令行参数>
-```
-
-如
-
-```shell
-docker run -e OPENAI_API_KEY=<your-openapi-key> yihong0618/xiaogpt --account=<your-xiaomi-account> --password=<your-xiaomi-password> --hardware=<your-xiaomi-hardware> --use_chatgpt_api
-```
-
-### 使用配置文件
-
-xiaogpt 的配置文件可通过指定 volume /config，以及指定参数--config 来处理，如
-
-```shell
-docker run -v <your-config-dir>:/config yihong0618/xiaogpt --config=/config/config.yaml
-```
-
-### 网络使用 host 模型
-
-```shell
-docker run -v <your-config-dir>:/config --network=host yihong0618/xiaogpt --config=/config/config.yaml
-```
-
-### 本地编译 Docker Image
-
-```shell
- docker build -t xiaogpt .
-```
-
-如果在安装依赖时构建失败或安装缓慢时，可以在构建 Docker 镜像时使用 `--build-arg` 参数来指定国内源地址：
-
-```sh
-docker build --build-arg PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple -t xiaogpt .
-```
-
-如果需要在 Apple M1/M2上编译x86
-
-```shell
- docker buildx build --platform=linux/amd64 -t xiaogpt-x86 .
-```
-
-### 第三方 TTS
-
-我们目前支持是三种第三方 TTS：edge/openai/azure/volc/baidu/google
-
-[edge-tts](https://github.com/rany2/edge-tts) 提供了类似微软 tts 的能力
-[azure-tts](https://techcommunity.microsoft.com/t5/ai-azure-ai-services-blog/9-more-realistic-ai-voices-for-conversations-now-generally/ba-p/4099471) 提供了微软 azure tts 的能力
-[openai-tts](https://platform.openai.com/docs/guides/text-to-speech) 提供了类似 openai tts 的能力
-[fish-tts](https://fish.audio/) 提供了 fish tts 的能力
-
-#### Usage
-
-你可以通过参数 `tts`, 来启用它
-
-```yaml
-tts: edge
-```
-
-For edge 查看更多语言支持，从中选择一个
-
-```shell
-edge-tts --list-voices
-```
-
-#### 如果你想使用 [fish-tts](https://fish.audio/)
-
-1. 注册 https://fish.audio/zh-CN/go-api/ 拿到 api key
-2. 选择你想要的声音自建声音或者使用热门声音  https://fish.audio/zh-CN/text-to-speech/?modelId=e80ea225770f42f79d50aa98be3cedfc 其中 `e80ea225770f42f79d50aa98be3cedfc` 就声音的 key id
-3. python3 xiaogpt.py --hardware LX06 --account xxxx --password xxxxx --use_chatgpt_api --mute_xiaoai --stream --tts fish --fish_api_key xxxxx --fish_voice_key xxxxx
-4. 或者在 xiao_config.yaml 中配置
-
-```yaml
-tts: fish 
-# TTS 参数字典，参考 https://github.com/frostming/tetos 获取可用参数
-tts_options: {
-    "api_key": "xxxxx",
-    "voice": "xxxxxx"
-}
-
-``` 
-
-#### 在容器中使用 edge-tts/azure-tts/openai-tts/volc/google/baidu/fish
-
-由于 Edge TTS 启动了一个本地的 HTTP 服务，所以需要将容器的端口映射到宿主机上，并且指定本地机器的 hostname:
-
-```shell
-docker run -v <your-config-dir>:/config -p 9527:9527 -e XIAOGPT_HOSTNAME=<your ip> yihong0618/xiaogpt --config=/config/config.yaml
-```
-
-注意端口必须映射为与容器内一致，XIAOGPT_HOSTNAME 需要设置为宿主机的 IP 地址，否则小爱无法正常播放语音。
 
 ## 推荐的类似项目
 
