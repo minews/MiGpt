@@ -1,0 +1,51 @@
+[project]
+name = "xiaogpt"
+description = "Play ChatGPT or other LLM with xiaomi AI speaker"
+readme = "README.md"
+authors = [
+    {name = "yihong0618", email = "zouzou0208@gmail.com"},
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+requires-python = ">=3.9,<3.13"
+dependencies = [
+    "fake-useragent>=2.2.0",
+    "aiohttp",
+    "rich",
+    "langchain>=0.3,<1",
+    "langchain-openai>=0.3,<1",
+    "langchain-google-genai",
+    "langchain-groq",
+    "langchain-mcp-adapters; python_version >= \"3.10\"",
+    "tetos>=0.2.1",
+    "pyyaml>=6.0.1",
+    "lingua-language-detector>=2.0.2; python_version < \"3.13\"",
+]
+license = {text = "MIT"}
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/yihong0618/xiaogpt"
+
+[project.scripts]
+xiaogpt = "xiaogpt.cli:main"
+
+[dependency-groups]
+dev = ["black"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["xiaogpt/"]
+
+[[tool.uv.index]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
