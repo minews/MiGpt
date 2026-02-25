@@ -1,0 +1,64 @@
+# This is a YAML configuration file
+
+# 小米设备型号，可在底部标签获得
+hardware: LX04
+# 小米账号
+account: ""
+# 小米密码
+password: ""
+# 小米账户 cookie （如果用上面密码登录可以不填）
+cookie: ""
+# 设备 DID，参考 https://github.com/yihong0618/MiService
+mi_did: ""
+# 使用 MI command 与小爱交互
+use_command: true
+# 快速停掉小爱自己的回答
+mute_xiaoai: true
+# 是否打印详细日志
+verbose: 0
+# HTTP 代理地址
+proxy: ""
+
+# ===== 对话 AI 设置 =====
+# model_provider: LangChain 支持的 provider，如 openai, google-genai, groq 等
+# model_name: 对应 provider 的模型名
+# 对于 OpenAI 兼容 API（moonshot, 智谱, 通义千问, 豆包, Yi, PPIO 等），
+# 设 model_provider: openai，并通过 api_base 指定 API 地址即可
+model_provider: openai
+model_name: gpt-4o
+# 自定义 prompt
+prompt: "请用300字以内回答"
+# 触发词列表
+keyword:
+    - "请"
+# 更改提示词触发列表
+change_prompt_keyword:
+    - "更改提示词"
+# 开始持续对话关键词
+start_conversation: "开始持续对话"
+# 结束持续对话关键词
+end_conversation: "结束持续对话"
+# 使用流式响应，获得更快的响应
+stream: true
+
+# ===== API 认证 =====
+# API Key（通用，适用于所有 provider）
+openai_key: "sk-xxxx"
+# API 地址（可选，用于 OpenAI 兼容 API 或代理）
+api_base: "https://api.openai.com/v1"
+
+# ===== MCP 工具扩展（可选，需要 Python >= 3.10）=====
+# mcp_servers:
+#   - name: "weather"
+#     transport: "stdio"
+#     command: "python"
+#     args: ["-m", "weather_mcp_server"]
+
+# ===== 语音设置 =====
+# 使用的 TTS 类型，目前支持 mi, edge, openai, azure, volc, baidu, google, minimax, fish
+tts: mi
+# TTS 参数字典，参考 https://github.com/frostming/tetos 获取可用参数
+tts_options: {}
+# 火山引擎 TTS 的 access key 和 secret key（仅 tts: volc 时需要）
+# volc_access_key: ""
+# volc_secret_key: ""
