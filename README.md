@@ -29,6 +29,29 @@ Play ChatGPT and other LLM with Xiaomi AI Speaker
 > 任何 OpenAI 兼容的 API 服务都可以通过 `model_provider: openai` + `api_base` 接入。
 > 旧版 `bot=chatgptapi` 等配置仍然兼容，会自动映射到对应的 provider。
 
+## Python 版本支持
+
+- **主分支**: Python >= 3.9
+- **Python 3.8 分支**: `python38-support`（使用 LangChain 0.2.x）
+
+### Python 3.8 用户安装
+
+```bash
+# 克隆 Python 3.8 专用分支
+git clone -b python38-support https://github.com/minews/MiGpt.git xiaogpt
+cd xiaogpt
+
+# 安装依赖（使用 uv）
+uv python pin 3.8
+uv venv
+uv sync --no-dev
+
+# 运行
+uv run python -m xiaogpt --config xiao_config.yaml
+```
+
+注意：Python 3.8 分支使用 LangChain 0.2.x，部分新功能（如 MCP 工具）需要 Python >= 3.10。
+
 ## 获取小米音响 DID
 
 | 系统和 Shell   | Linux *sh                                      | Windows CMD 用户                        | Windows PowerShell 用户                         |
@@ -50,7 +73,7 @@ Play ChatGPT and other LLM with Xiaomi AI Speaker
 1. LLM API Key（OpenAI / Gemini / Groq 等任一即可）
 2. 小爱音响
 3. 能正常联网的环境或 proxy
-4. Python 3.9+
+4. Python 3.8+（主分支需要 3.9+，Python 3.8 请使用 `python38-support` 分支）
 
 ## 使用
 
