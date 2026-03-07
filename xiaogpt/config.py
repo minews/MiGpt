@@ -4,7 +4,7 @@ import argparse
 import json
 import os
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Literal, Optional, Union
+from typing import Any, Dict, Iterable, List, Literal, Optional, Union
 
 import yaml
 
@@ -71,10 +71,10 @@ class Config:
     tts: Literal[
         "mi", "edge", "azure", "openai", "baidu", "google", "volc", "minimax", "fish"
     ] = "mi"
-    tts_options: dict[str, Any] = field(default_factory=dict)
+    tts_options: Dict[str, Any] = field(default_factory=dict)
     model_provider: str = ""
     model_name: str = ""
-    mcp_servers: list[dict[str, Any]] = field(default_factory=list)
+    mcp_servers: List[Dict[str, Any]] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         # Legacy bot 配置自动映射到 model_provider/model_name

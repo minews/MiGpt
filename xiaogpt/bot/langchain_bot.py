@@ -1,7 +1,7 @@
 """Unified LangChain bot supporting all model providers."""
 from __future__ import annotations
 
-from typing import Any, AsyncGenerator, Optional
+from typing import Any, AsyncGenerator, List, Optional
 
 from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
 from rich import print
@@ -20,15 +20,15 @@ class LangChainBot(BaseBot):
         self,
         model,
         system_prompt: str = "",
-        tools: Optional[list] = None,
+        tools: Optional[List] = None,
     ) -> None:
         self.model = model.bind_tools(tools) if tools else model
         self.system_prompt = system_prompt
-        self.history: list[BaseMessage] = []
+        self.history: List[BaseMessage] = []
         if system_prompt:
             self.history.append(SystemMessage(content=system_prompt))
 
-    def _build_messages(self, query: str) -> list[BaseMessage]:
+    def _build_messages(self, query: str) -> List[BaseMessage]:
         messages = list(self.history)
         messages.append(HumanMessage(content=query))
         return messages

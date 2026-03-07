@@ -7,9 +7,21 @@ import random
 import string
 from urllib import parse
 from aiohttp import ClientSession
-from fake_useragent import UserAgent
 
 _LOGGER = logging.getLogger(__package__)
+
+# 固定的 User-Agent 列表，随机选择一个
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/121.0",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Safari/605.1.15",
+]
+
+def get_random_ua():
+    """获取随机 User-Agent"""
+    return random.choice(USER_AGENTS)
 
 
 def get_random(length):
@@ -50,8 +62,7 @@ class MiAccount:
         )
         self.token = token_store is not None and self.token_store.load_token()
         self.cookie = cookie
-        self.ua = UserAgent()  # 初始化随机 User-Agent 生成器
-        self.now_ua = self.ua.random
+        self.now_ua = get_random_ua()  # 初始化随机 User-Agent
 
     async def login(self, sid):
 
@@ -95,7 +106,7 @@ class MiAccount:
             raise
 
     async def _serviceLogin(self, uri, data=None):
-        self.now_ua = self.ua.random
+        self.now_ua = get_random_ua()
         headers = {"User-Agent": self.now_ua}
         cookies = {"sdkVersion": "3.9", "deviceId": self.token["deviceId"]}
         if "passToken" in self.token:

@@ -7,7 +7,7 @@ import tempfile
 import threading
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from typing import AsyncIterator
+from typing import AsyncIterator, Tuple
 
 from xiaogpt.miservice import MiNAService
 
@@ -50,7 +50,7 @@ class TetosFileTTS(TTS):
         except TypeError as e:
             raise ValueError(f"{e}. Please add them via `tts_options` config") from e
 
-    async def make_audio_file(self, lang: str, text: str) -> tuple[Path, float]:
+    async def make_audio_file(self, lang: str, text: str) -> Tuple[Path, float]:
         output_file = tempfile.NamedTemporaryFile(
             suffix=".mp3", mode="wb", delete=False, dir=self.dirname.name
         )
@@ -58,7 +58,7 @@ class TetosFileTTS(TTS):
         return Path(output_file.name), duration
 
     async def synthesize(self, lang: str, text_stream: AsyncIterator[str]) -> None:
-        queue: asyncio.Queue[tuple[str, float]] = asyncio.Queue()
+        queue: asyncio.Queue[Tuple[str, float]] = asyncio.Queue()
         finished = asyncio.Event()
 
         async def worker():

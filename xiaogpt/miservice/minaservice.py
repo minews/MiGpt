@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import Any, Dict, List, TypedDict
 
 from .miaccount import MiAccount, get_random
 
@@ -18,6 +19,23 @@ _USE_PLAY_MUSIC_API = [
     "X08E",
     "X8F",
 ]
+
+
+class ResponseAnswer(TypedDict):
+    domain: str
+    action: str
+    content: str
+    question: str
+
+
+class ResultResponse(TypedDict):
+    answer: List[ResponseAnswer]
+
+
+class ResultMessage(TypedDict):
+    request_id: str
+    timestamp_ms: int
+    response: ResultResponse
 
 
 class MiNAService:
@@ -50,24 +68,8 @@ class MiNAService:
         )
         return result
 
-    async def get_latest_ask(self, deviceId):
-        from typing import TypedDict
-
-        class result_message(TypedDict):
-            class result_response(TypedDict):
-                class response_answer(TypedDict):
-                    domain: str
-                    action: str
-                    content: str
-                    question: str
-
-                answer: list[response_answer]
-
-            request_id: str
-            timestamp_ms: int
-            response: result_response
-
-        messages = []
+    async def get_latest_ask(self, deviceId) -> List[ResultMessage]:
+        messages: List[ResultMessage] = []
         result = await self.ubus_request(deviceId, "nlp_result_get", "mibrain", {})
         if 0 != result["data"]["code"]:
             return messages
@@ -76,20 +78,20 @@ class MiNAService:
             if not "nlp" in item:
                 continue
             nlp = json.loads(item["nlp"])
-            msg = result_message(
-                request_id=nlp["meta"]["request_id"],
-                timestamp_ms=int(nlp["meta"]["timestamp"]),
-                response=result_message.result_response(answer=[]),
-            )
+            msg: ResultMessage = {
+                "request_id": nlp["meta"]["request_id"],
+                "timestamp_ms": int(nlp["meta"]["timestamp"]),
+                "response": {"answer": []},
+            }
             assert 1 == len(nlp["response"]["answer"])
             for answer in nlp["response"]["answer"]:
                 msg["response"]["answer"].append(
-                    result_message.result_response.response_answer(
-                        domain=answer["domain"],
-                        action=answer["action"],
-                        content=answer["content"]["to_speak"],
-                        question=answer["intention"]["query"],
-                    )
+                    {
+                        "domain": answer["domain"],
+                        "action": answer["action"],
+                        "content": answer["content"]["to_speak"],
+                        "question": answer["intention"]["query"],
+                    }
                 )
             messages.append(msg)
         return messages
@@ -150,8 +152,8 @@ class MiNAService:
     async def play_by_url(self, deviceId, url, _type=2):
         if deviceId not in self.device2hardware:
             await self._init_devices()
-        hardware = self.device2hardware[deviceId]
-        if hardware in _USE_PLAY_MUSIC_API:
+        hardware = self.device2hardware.get(deviceId)
+        if hardware and hardware in _USE_PLAY_MUSIC_API:
             return await self.play_by_music_url(deviceId, url, _type)
         else:
             return await self.ubus_request(
@@ -163,11 +165,12 @@ class MiNAService:
 
     async def _init_devices(self):
         hardware_data = await self.device_list()
-        for h in hardware_data:
-            deviceId = h.get("deviceID", "")
-            hardware = h.get("hardware", "")
-            if deviceId and hardware:
-                self.device2hardware[deviceId] = hardware
+        if hardware_data:
+            for h in hardware_data:
+                deviceId = h.get("deviceID", "")
+                hardware = h.get("hardware", "")
+                if deviceId and hardware:
+                    self.device2hardware[deviceId] = hardware
 
     async def play_by_music_url(
         self, deviceId, url, _type=2, audio_id="1582971365183456177", id="355454500"

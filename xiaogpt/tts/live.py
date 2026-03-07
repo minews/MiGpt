@@ -6,7 +6,7 @@ import threading
 import uuid
 from functools import lru_cache
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from typing import AsyncIterator
+from typing import AsyncIterator, List, TYPE_CHECKING
 
 from xiaogpt.miservice import MiNAService
 
@@ -14,9 +14,12 @@ from xiaogpt.config import Config
 from xiaogpt.tts.base import TTS, logger
 from xiaogpt.utils import get_hostname
 
+if TYPE_CHECKING:
+    from queue import Queue
+
 
 @lru_cache(maxsize=64)
-def get_queue(key: str) -> queue.Queue[bytes]:
+def get_queue(key: str) -> "Queue[bytes]":
     return queue.Queue()
 
 
@@ -27,7 +30,7 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
         self.end_headers()
         key = self.path.split("/")[-1]
         queue = get_queue(key)
-        chunks: list[bytes] = []
+        chunks: List[bytes] = []
         while True:
             chunk = queue.get()
             chunks.append(chunk)
