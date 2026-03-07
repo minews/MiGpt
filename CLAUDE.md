@@ -115,3 +115,7 @@ mcp_servers:
 - System Prompt 通过 LangChain 的 `SystemMessage` 在 Bot 初始化时设置
 - 环境变量 `MI_USER`、`MI_PASS`、`MI_DID` 用于小米账号认证
 - 根目录 `xiaogpt.py` 是本地开发便捷脚本，含硬编码值，不应提交敏感信息
+
+
+## 如何简单获取Cookie
+

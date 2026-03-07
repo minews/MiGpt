@@ -142,6 +142,7 @@ class MiAccount:
         async with self.session.get(url,
             cookies=cookie_dict,
             headers=headers,
+            ssl = False
         ) as r:
             raw = await r.read()
             resp = json.loads(raw[11:])
@@ -168,7 +169,8 @@ class MiAccount:
         async with self.session.get(url,
             data=data,
             cookies=cookies,
-            headers=headers
+            headers=headers,
+            ssl = False
         ) as r:
             raw = await r.read()
             resp = json.loads(raw[11:])
