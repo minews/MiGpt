@@ -8,7 +8,7 @@ import logging
 import re
 import time
 from pathlib import Path
-from typing import AsyncIterator
+from typing import AsyncIterator, Optional, Union
 
 from aiohttp import ClientSession, ClientTimeout
 from xiaogpt.miservice import MiAccount, MiIOService, MiNAService, miio_command
@@ -192,7 +192,7 @@ class MiGPT:
         self.config.prompt = new_prompt
         self.chatbot.change_prompt(new_prompt)
 
-    async def get_latest_ask_from_xiaoai(self, session: ClientSession) -> dict | None:
+    async def get_latest_ask_from_xiaoai(self, session: ClientSession) -> Optional[dict]:
         retries = 3
         for i in range(retries):
             try:
@@ -224,7 +224,7 @@ class MiGPT:
     async def _retry(self):
         await self.init_all_data()
 
-    def _get_last_query(self, data: dict) -> dict | None:
+    def _get_last_query(self, data: dict) -> Optional[dict]:
         if d := data.get("data"):
             records = json.loads(d).get("records")
             if not records:

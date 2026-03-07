@@ -4,7 +4,7 @@ import argparse
 import json
 import os
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Literal
+from typing import Any, Iterable, Literal, Optional, Union
 
 import yaml
 
@@ -54,7 +54,7 @@ class Config:
     account: str = os.getenv("MI_USER", "")
     password: str = os.getenv("MI_PASS", "")
     openai_key: str = os.getenv("OPENAI_API_KEY", "")
-    proxy: str | None = None
+    proxy: Optional[str] = None
     mi_did: str = os.getenv("MI_DID", "")
     keyword: Iterable[str] = KEY_WORD
     change_prompt_keyword: Iterable[str] = CHANGE_PROMPT_KEY_WORD
@@ -62,7 +62,7 @@ class Config:
     mute_xiaoai: bool = True
     bot: str = "chatgptapi"
     cookie: str = ""
-    api_base: str | None = None
+    api_base: Optional[str] = None
     use_command: bool = False
     verbose: int = 0
     start_conversation: str = "开始持续对话"

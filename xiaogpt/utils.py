@@ -5,7 +5,7 @@ import os
 import re
 import socket
 from http.cookies import SimpleCookie
-from typing import TYPE_CHECKING, AsyncIterator
+from typing import TYPE_CHECKING, AsyncIterator, Optional
 from urllib.parse import urlparse
 
 from requests.utils import cookiejar_from_dict
@@ -67,7 +67,7 @@ def get_hostname() -> str:
         return s.getsockname()[0]
 
 
-def _get_detector() -> LanguageDetector | None:
+def _get_detector() -> Optional[LanguageDetector]:
     try:
         from lingua import LanguageDetectorBuilder
     except ImportError:
